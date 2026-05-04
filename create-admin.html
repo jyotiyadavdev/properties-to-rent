@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Admin Account</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        .container {
+            background: white;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            max-width: 500px;
+            width: 100%;
+        }
+        h1 {
+            color: #333;
+            margin-bottom: 10px;
+            font-size: 28px;
+        }
+        p {
+            color: #666;
+            margin-bottom: 30px;
+            line-height: 1.6;
+        }
+        .info-box {
+            background: #f0f9ff;
+            border: 2px solid #3b82f6;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 30px;
+        }
+        .info-box h3 {
+            color: #1e40af;
+            margin-bottom: 15px;
+            font-size: 16px;
+        }
+        .credential {
+            background: white;
+            padding: 10px 15px;
+            border-radius: 5px;
+            margin-bottom: 10px;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+        }
+        .credential strong {
+            color: #1e40af;
+            display: inline-block;
+            width: 100px;
+        }
+        button {
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(135deg, #f97316 0%, #ea580c 100%);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(249, 115, 22, 0.3);
+        }
+        button:active {
+            transform: translateY(0);
+        }
+        button:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+        .message {
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 10px;
+            font-weight: bold;
+            display: none;
+        }
+        .message.success {
+            background: #d1fae5;
+            color: #065f46;
+            border: 2px solid #10b981;
+        }
+        .message.error {
+            background: #fee2e2;
+            color: #991b1b;
+            border: 2px solid #ef4444;
+        }
+        .message.show {
+            display: block;
+        }
+        .note {
+            background: #fef3c7;
+            border-left: 4px solid #f59e0b;
+            padding: 15px;
+            margin-top: 20px;
+            border-radius: 5px;
+            font-size: 14px;
+            color: #92400e;
+        }
+        .steps {
+            background: #f3f4f6;
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 20px;
+        }
+        .steps h3 {
+            color: #374151;
+            margin-bottom: 15px;
+            font-size: 16px;
+        }
+        .steps ol {
+            margin-left: 20px;
+            color: #4b5563;
+        }
+        .steps li {
+            margin-bottom: 8px;
+            line-height: 1.5;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔧 Create Admin Account</h1>
+        <p>Click the button below to create your admin account for the Real Estate Website.</p>
+        
+        <div class="info-box">
+            <h3>📋 Admin Credentials</h3>
+            <div class="credential">
+                <strong>Email:</strong> admin@gmail.com
+            </div>
+            <div class="credential">
+                <strong>Password:</strong> Dubai@2019
+            </div>
+        </div>
+
+        <button id="createBtn" onclick="createAdmin()">
+            🚀 Create Admin Account Now
+        </button>
+
+        <div id="message" class="message"></div>
+
+        <div class="note">
+            <strong>⚠️ Important:</strong> This will create an admin account with the credentials shown above. You can change the password after logging in.
+        </div>
+
+        <div class="steps">
+            <h3>📝 Next Steps After Creation:</h3>
+            <ol>
+                <li>Wait for the success message</li>
+                <li>Go to your website's admin login page</li>
+                <li>Login with: <strong>admin@gmail.com</strong> / <strong>Dubai@2019</strong></li>
+                <li>Start managing your properties! 🏠</li>
+            </ol>
+        </div>
+    </div>
+
+    <script>
+        async function createAdmin() {
+            const btn = document.getElementById('createBtn');
+            const msg = document.getElementById('message');
+            
+            // Reset message
+            msg.className = 'message';
+            msg.textContent = '';
+            
+            // Disable button
+            btn.disabled = true;
+            btn.textContent = '⏳ Creating Account...';
+            
+            try {
+                // IMPORTANT: Replace these values with your actual Supabase credentials
+                const PROJECT_ID = 'YOUR_PROJECT_ID'; // e.g., 'abcdefghijklmnop'
+                const ANON_KEY = 'YOUR_ANON_KEY'; // Your Supabase anon/public key
+                
+                // Check if credentials are set
+                if (PROJECT_ID === 'YOUR_PROJECT_ID' || ANON_KEY === 'YOUR_ANON_KEY') {
+                    throw new Error('Please update PROJECT_ID and ANON_KEY in the HTML file first!');
+                }
+                
+                const response = await fetch(
+                    `https://${PROJECT_ID}.supabase.co/functions/v1/make-server-9d116660/auth/signup`,
+                    {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Authorization': `Bearer ${ANON_KEY}`
+                        },
+                        body: JSON.stringify({
+                            email: 'admin@gmail.com',
+                            password: 'Dubai@2019',
+                            name: 'Admin'
+                        })
+                    }
+                );
+                
+                const data = await response.json();
+                
+                if (response.ok) {
+                    msg.className = 'message success show';
+                    msg.textContent = '✅ SUCCESS! Admin account created successfully! You can now login with the credentials above.';
+                    btn.textContent = '✅ Account Created';
+                } else {
+                    throw new Error(data.error || 'Failed to create account');
+                }
+                
+            } catch (error) {
+                msg.className = 'message error show';
+                msg.textContent = `❌ ERROR: ${error.message}`;
+                btn.disabled = false;
+                btn.textContent = '🔧 Create Admin Account Now';
+                console.error('Full error:', error);
+            }
+        }
+    </script>
+</body>
+</html>
